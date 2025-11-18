@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: pyrya-landing
+    env: node
+    plan: free
+    region: oregon
+    buildCommand: "npm install"
+    startCommand: "npm start"
+    envVars:
+      - key: MAIL_USER
+        value: tuemail@gmail.com
+      - key: MAIL_PASS
+        sync: false

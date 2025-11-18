@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <title>Pyrya</title>
+  <style>
+    .fade-in { animation: fadeIn 1.2s ease-in-out forwards; opacity: 0; }
+    @keyframes fadeIn { to { opacity: 1; } }
+  </style>
+</head>
+
+<body class="h-screen w-screen overflow-hidden">
+  <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('bg.jpeg'); filter: blur(6px); transform: scale(1.05);"></div>
+
+  <main class="relative z-10 h-full flex flex-col items-center justify-center text-white px-6 text-center fade-in">
+    <h1 class="text-5xl font-bold drop-shadow-lg mb-4">Pyrya está llegando a la región</h1>
+    <p class="text-xl mb-8 drop-shadow-lg">Automatizamos el lavado de tu auto y optimizamos tu tiempo.</p>
+
+    <form id="form" class="flex flex-col md:flex-row gap-4 w-full max-w-xl justify-center">
+      <input 
+        id="email"
+        type="email"
+        required
+        placeholder="Ingresá tu correo" 
+        class="p-3 rounded text-black flex-1"
+      />
+
+      <button 
+        class="bg-purple-600 hover:bg-purple-700 transition p-3 rounded font-semibold">
+        Quiero más información
+      </button>
+    </form>
+
+    <p id="msg" class="mt-4 text-lg font-semibold"></p>
+  </main>
+
+  <script>
+    document.getElementById("form").addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const email = document.getElementById("email").value;
+      const msg = document.getElementById("msg");
+      msg.textContent = "Enviando...";
+
+      const res = await fetch("/api/send", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email })
+      });
+
+      const text = await res.text();
+      msg.textContent = text;
+    });
+  </script>
+</body>
+</html>
